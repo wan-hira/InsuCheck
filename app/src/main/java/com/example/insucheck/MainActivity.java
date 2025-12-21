@@ -1,5 +1,8 @@
 package com.example.insucheck;
 
+import static com.example.insucheck.HistoryActivity.requestPermissionsIfNecessary;
+
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -98,11 +101,25 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+        PermissionsManager(this);
     }
 
     private void goToDashboard() {
         Intent intent = new Intent(MainActivity.this, DashboardActivity.class);
         startActivity(intent);
         finish(); // Pour ne pas revenir au login avec le bouton retour
+    }
+
+    public static void PermissionsManager(Activity activity) {
+        String[] permissions = {Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.ACCESS_COARSE_LOCATION,
+                Manifest.permission.INTERNET,
+                Manifest.permission.ACCESS_NETWORK_STATE,
+                Manifest.permission.CAMERA,
+                Manifest.permission.READ_PHONE_STATE,
+                Manifest.permission.READ_SMS
+        };
+        requestPermissionsIfNecessary(activity, permissions);
     }
 }

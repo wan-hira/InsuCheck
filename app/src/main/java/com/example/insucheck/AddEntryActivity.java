@@ -31,7 +31,7 @@ public class AddEntryActivity extends AppCompatActivity {
     public void createEntry(View view) {
         double glycemiaValue = Double.parseDouble(glycemia.getText().toString());
         double hemoglobineValue = Double.parseDouble(hemoglobine.getText().toString());
-        String time = textClock.getText().toString();
+        String time = String.valueOf(System.currentTimeMillis());
         // Todo GET LOCATION
         Entry newEntry = new Entry(glycemiaValue, hemoglobineValue, time, 0, 0);
         db.addRow(newEntry);

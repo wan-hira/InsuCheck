@@ -22,8 +22,16 @@ public class DashboardActivity extends AppCompatActivity {
         db = new DatabaseHelper(this);
     }
 
-    private void getLastEntry() {
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getLastEntry();
+    }
 
+
+
+    private void getLastEntry() {
+        db.getFirstNRows(1);
     }
 
 
@@ -31,7 +39,6 @@ public class DashboardActivity extends AppCompatActivity {
     public void addEntry(View view) {
         Intent intent = new Intent(this, AddEntryActivity.class);
         startActivity(intent);
-
     }
 
     public void history(View view) {
