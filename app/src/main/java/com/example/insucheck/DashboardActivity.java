@@ -2,14 +2,16 @@ package com.example.insucheck;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.view.View;
 
 import androidx.activity.EdgeToEdge;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.insucheck.database.DatabaseHelper;
+
 public class DashboardActivity extends AppCompatActivity {
+    private DatabaseHelper db;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -17,6 +19,10 @@ public class DashboardActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_dashboard);
 
+        db = new DatabaseHelper(this);
+    }
+
+    private void getLastEntry() {
 
     }
 
@@ -34,8 +40,8 @@ public class DashboardActivity extends AppCompatActivity {
     }
 
     public void settings(View view) {
-        Intent intent = new Intent(this, SettingsActivity.class);
-        startActivity(intent);
+        //Intent intent = new Intent(this, SettingsActivity.class);
+        //startActivity(intent);
     }
 
 }

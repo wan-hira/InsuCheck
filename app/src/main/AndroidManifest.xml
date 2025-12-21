@@ -36,7 +36,7 @@
         </activity>
         <activity android:name=".DashboardActivity"/>
         <activity android:name=".HistoryActivity"/>
-        <activity android:name=".SimulationActivity"/>
+        <activity android:name=".AddEntryActivity"/>
         <service android:name=".services.MonitoringService"/>
         <receiver android:name=".receivers.SmsReceiver"
             android:exported="true">
