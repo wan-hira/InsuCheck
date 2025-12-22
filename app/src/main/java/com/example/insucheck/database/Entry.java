@@ -13,7 +13,7 @@ public class Entry implements Serializable {
     private double hemoglobine;
     private String time;
     private double lat, lon;
-
+    private String imagePath;
     public Entry() {}
 
     public Entry(double glycemia, double hemoglobine, String time, double lat, double lon) {
@@ -75,6 +75,10 @@ public class Entry implements Serializable {
         this.lon = lon;
     }
 
+    public String getImagePath() { return imagePath; }
+
+    public void setImagePath(String imagePath) { this.imagePath = imagePath; }
+
     @Override
     public String toString() {
         return "Entry{" +
@@ -83,6 +87,7 @@ public class Entry implements Serializable {
                 ", time='" + time + '\'' +
                 ", lat=" + lat +
                 ", lon=" + lon +
+                ", imagePath=" + imagePath +
                 '}';
     }
 }
