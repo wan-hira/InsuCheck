@@ -6,6 +6,7 @@
     android:layout_height="match_parent">
 
     <LinearLayout
+        style="@style/Body"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
@@ -46,7 +47,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:onClick="addEntry"
-                android:text="entrer" />
+                android:text="@string/entrer" />
 
             <Button
                 android:id="@+id/historyBtn"
@@ -54,7 +55,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:onClick="history"
-                android:text="historique" />
+                android:text="@string/historique" />
 
             <Button
                 android:id="@+id/settingsBtn"
@@ -62,7 +63,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:onClick="settings"
-                android:text="reglages" />
+                android:text="@string/reglages" />
         </LinearLayout>
 
     </LinearLayout>

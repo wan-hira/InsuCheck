@@ -8,10 +8,10 @@
     tools:context=".MainActivity">
 
     <LinearLayout
+        style="@style/Body"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="20dp"
-        android:layout_marginTop="40dp"
+
         android:orientation="vertical"
         app:layout_constraintTop_toTopOf="parent"
         tools:layout_editor_absoluteX="20dp">
@@ -23,6 +23,7 @@
             tools:srcCompat="@tools:sample/avatars" />
 
         <TextView
+            style="Input"
             android:id="@+id/textView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -51,7 +52,8 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center"
+                android:layout_gravity="end"
+                android:gravity="center|end"
                 android:orientation="horizontal">
 
                 <Button

@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">InsuCheck</string>
+    <string name="historique">Show History</string>
+    <string name="entrer">Add Entry</string>
+    <string name="reglages">Settings</string>
 </resources>

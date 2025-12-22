@@ -4,7 +4,9 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.ArrayAdapter;
@@ -17,8 +19,11 @@ import androidx.core.content.ContextCompat;
 
 import com.example.insucheck.database.DatabaseHelper;
 import com.example.insucheck.database.Entry;
+import com.example.insucheck.map.EntryMaker;
 
 import org.osmdroid.api.IMapController;
+import org.osmdroid.bonuspack.clustering.RadiusMarkerClusterer;
+import org.osmdroid.bonuspack.utils.BonusPackHelper;
 import org.osmdroid.config.Configuration;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.util.GeoPoint;
@@ -35,11 +40,13 @@ public class HistoryActivity extends AppCompatActivity {
     private final int DEFAULT_ZOOM_LEVEL = 13;
     private double last_postion_latitude = 42;
     private double last_postion_longitude = 2;
+    private List<Entry> entries;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
 
         Context ctx = getApplicationContext();
         Configuration.getInstance().load(ctx, PreferenceManager.getDefaultSharedPreferences(ctx));
@@ -89,14 +96,16 @@ public class HistoryActivity extends AppCompatActivity {
         map.onPause();
     }
 
+
     private void entryHistory() {
         Log.d(getLocalClassName(), "Listing...");
 
-        List<Entry> events = db.getAllRows();
+        entries = db.getAllRows();
+        entriesMarker();
 
         List<String> list = new ArrayList<>();
-        Log.d(getLocalClassName(), "n_rows : "+events.size());
-        for(Entry e : events) {
+        Log.d(getLocalClassName(), "n_rows : "+entries.size());
+        for(Entry e : entries) {
             list.add(e.toString());
         }
 
@@ -104,6 +113,20 @@ public class HistoryActivity extends AppCompatActivity {
         listView.setAdapter(
                 new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, list)
         );
+    }
+
+    private void entriesMarker() {
+        for(Entry e : entries) {
+            Log.d(getLocalClassName(), "Adding marker : "+e.toString());
+            RadiusMarkerClusterer markerClusterer = new RadiusMarkerClusterer(this);
+
+            Bitmap clusterIcon = BonusPackHelper.getBitmapFromVectorDrawable(this, org.osmdroid.bonuspack.R.drawable.marker_cluster);
+            markerClusterer.setIcon(clusterIcon);
+
+            map.getOverlays().add(markerClusterer);
+            new EntryMaker(this, map, e, markerClusterer);
+            map.invalidate();
+        }
     }
 
     @Override

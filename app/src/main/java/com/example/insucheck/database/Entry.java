@@ -1,6 +1,12 @@
 package com.example.insucheck.database;
 
+import android.icu.text.SimpleDateFormat;
+import android.util.Log;
+
 import java.io.Serializable;
+import java.sql.Date;
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 
 public class Entry implements Serializable {
     private double glycemia;
@@ -16,6 +22,17 @@ public class Entry implements Serializable {
         setTime(time);
         setLat(lat);
         setLon(lon);
+    }
+
+    public String getFormattedTime() {
+        String time = getTime();
+        try {
+            long ts = Long.parseLong(time);
+            return new SimpleDateFormat("EEEE d MMMM yyyy HH:mm", Locale.getDefault()).format(new Date(ts));
+        } catch (NumberFormatException e) {
+            Log.e(getClass().getName(), "Could not format time: "+time);
+            return time;
+        }
     }
 
     public double getGlycemia() {
