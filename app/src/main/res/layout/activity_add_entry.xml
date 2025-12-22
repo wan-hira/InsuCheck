@@ -1,101 +1,139 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#F8FAFC">
 
     <LinearLayout
-        style="@style/Body"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="24dp">
 
         <TextView
             android:id="@+id/textView4"
-            style="@style/Title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Glycemia" />
+            android:text="Glycemia"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="#1E293B"
+            android:layout_marginBottom="8dp"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_marginBottom="20dp">
 
             <EditText
                 android:id="@+id/glycemia"
-                style="@style/FloatInput"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="55dp"
                 android:layout_weight="1"
-                android:ems="10"
                 android:hint="Glycemia in g/L"
-                android:inputType="numberDecimal" />
+                android:inputType="numberDecimal"
+                android:background="@android:drawable/editbox_background"
+                android:paddingStart="12dp" />
 
             <TextView
                 android:id="@+id/textView3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
                 android:text="g/L" />
         </LinearLayout>
 
         <TextView
             android:id="@+id/textView5"
-            style="@style/Title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Hémoglobine glyquée (HbA1c)" />
+            android:text="Hémoglobine glyquée (HbA1c)"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="#1E293B"
+            android:layout_marginBottom="8dp"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_marginBottom="20dp">
 
             <EditText
                 android:id="@+id/hemoglobine"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="55dp"
                 android:layout_weight="1"
-                android:ems="10"
-                android:hint="Hemoblogbine in %"
-                android:inputType="numberDecimal" />
+                android:hint="Hemoglobine in %"
+                android:inputType="numberDecimal"
+                android:background="@android:drawable/editbox_background"
+                android:paddingStart="12dp" />
 
             <TextView
                 android:id="@+id/textView6"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
                 android:text="%" />
         </LinearLayout>
+
+        <Button
+            android:id="@+id/btnCapture"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Prendre Photo Repas"
+            android:onClick="capturePhoto"
+            android:backgroundTint="#64748B" />
+
+        <ImageView
+            android:id="@+id/imgPreview"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_marginTop="10dp"
+            android:visibility="gone"
+            android:scaleType="centerCrop" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
             <TextView
-                style="@style/Title"
                 android:id="@+id/textView7"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Time" />
+                android:text="Time"
+                android:textStyle="bold" />
 
             <TextClock
                 android:id="@+id/textClock"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:layout_marginStart="8dp" />
+                android:layout_marginStart="12dp"
+                android:textSize="18sp" />
         </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
 
         <Button
             android:id="@+id/button"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="60dp"
             android:layout_marginTop="16dp"
             android:onClick="createEntry"
-            android:text="Submit" />
+            android:text="Submit"
+            android:backgroundTint="#2196F3"
+            android:textStyle="bold" />
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

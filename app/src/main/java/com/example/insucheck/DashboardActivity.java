@@ -32,8 +32,28 @@ public class DashboardActivity extends AppCompatActivity {
 
 
     // TODO check if ASC or DESC
+    /*
     private void getLastEntry() {
         Entry e = db.getFirstNRows(1).get(0);
+    }
+     */
+
+    private void getLastEntry() {
+        // On récupère la liste
+        java.util.List<Entry> entries = db.getFirstNRows(1);
+
+        // On vérifie qu'elle n'est pas vide avant d'accéder à l'élément 0
+        if (entries != null && !entries.isEmpty()) {
+            Entry e = entries.get(0);
+
+            // On affiche la valeur dans le TextView (ID: textView2)
+            android.widget.TextView tv = findViewById(R.id.textView2);
+            tv.setText(String.valueOf((int) e.getGlycemia()));
+
+            // On met à jour la ProgressBar (ID: progressBar)
+            android.widget.ProgressBar pb = findViewById(R.id.progressBar);
+            pb.setProgress((int) e.getGlycemia());
+        }
     }
 
 
