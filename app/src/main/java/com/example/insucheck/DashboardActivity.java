@@ -8,6 +8,7 @@ import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.insucheck.database.DatabaseHelper;
+import com.example.insucheck.database.Entry;
 
 public class DashboardActivity extends AppCompatActivity {
     private DatabaseHelper db;
@@ -30,8 +31,9 @@ public class DashboardActivity extends AppCompatActivity {
 
 
 
+    // TODO check if ASC or DESC
     private void getLastEntry() {
-        db.getFirstNRows(1);
+        Entry e = db.getFirstNRows(1).get(0);
     }
 
 

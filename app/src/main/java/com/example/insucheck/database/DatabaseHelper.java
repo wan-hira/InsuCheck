@@ -54,6 +54,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(COLUMN_TIME, entry.getTime());
         values.put(COLUMN_LAT, entry.getLat());
         values.put(COLUMN_LON, entry.getLon());
+        values.put(COLUMN_IMAGE, entry.getImagePath());
 
         long result = db.insert(TABLE_NAME, null, values);
         Log.d(getClass().getName()+".addRow", "Entry of : "+entry.getTime() + " added");

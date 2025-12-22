@@ -22,6 +22,7 @@ public class Entry implements Serializable {
         setTime(time);
         setLat(lat);
         setLon(lon);
+        setImagePath(imagePath);
     }
 
     public String getFormattedTime() {

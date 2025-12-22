@@ -75,7 +75,7 @@
             android:orientation="horizontal">
 
             <TextView
-                android:style="@style/Title"
+                style="@style/Title"
                 android:id="@+id/textView7"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
