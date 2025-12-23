@@ -40,6 +40,7 @@ public class AddEntryActivity extends AppCompatActivity {
         db = new DatabaseHelper(this);
         glycemia = findViewById(R.id.glycemia);
         hemoglobine = findViewById(R.id.hemoglobine);
+        imageViewPreview = findViewById(R.id.imgPreview);
     }
 
     public void createEntry(View view) {

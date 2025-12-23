@@ -35,7 +35,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + "("
                 + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + COLUMN_GLYCEMIA + " REAL, " + COLUMN_HEMOGLOBINE + " REAL, "
-                + COLUMN_TIME + " TEXT, " + COLUMN_LAT + " REAL, " + COLUMN_LON + " REAL " + COLUMN_IMAGE + " TEXT );";
+                + COLUMN_TIME + " TEXT, " + COLUMN_LAT + " REAL, " + COLUMN_LON + " REAL, " + COLUMN_IMAGE + " TEXT );";
         db.execSQL(CREATE_TABLE);
     }
 
