@@ -92,6 +92,7 @@ public class AddEntryActivity extends AppCompatActivity {
         File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         File image = File.createTempFile(imageFileName, ".jpg", storageDir);
         currentPhotoPath = image.getAbsolutePath();
+        Log.d(getLocalClassName(), "Image path : "+currentPhotoPath);
         return image;
     }
 

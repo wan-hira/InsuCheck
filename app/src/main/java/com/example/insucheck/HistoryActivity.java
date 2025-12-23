@@ -6,15 +6,20 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.location.Location;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -23,6 +28,7 @@ import androidx.core.content.ContextCompat;
 import com.example.insucheck.database.DatabaseHelper;
 import com.example.insucheck.database.Entry;
 import com.example.insucheck.map.EntryMaker;
+import com.example.insucheck.services.GPSservice;
 
 import org.osmdroid.api.IMapController;
 import org.osmdroid.bonuspack.clustering.RadiusMarkerClusterer;
@@ -33,7 +39,6 @@ import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class HistoryActivity extends AppCompatActivity {
@@ -56,6 +61,7 @@ public class HistoryActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_history);
 
+        getLastPosition();
         map = (MapView) findViewById(R.id.map);
         initMap(map, this, last_postion_latitude, last_postion_longitude, DEFAULT_ZOOM_LEVEL);
         init();
@@ -99,11 +105,17 @@ public class HistoryActivity extends AppCompatActivity {
         map.onPause();
     }
 
+    private void getLastPosition() {
+        Location lastLocation = GPSservice.getLastLocation(this, getSystemService(Context.LOCATION_SERVICE));
+        last_postion_latitude = lastLocation.getLatitude();
+        last_postion_longitude = lastLocation.getLongitude();
+    }
+
     public static void launchFullActivity(Context ctx, Activity activity, Entry e) {
         Intent intent = new Intent(ctx, EntryFullActivity.class);
-        intent.putExtra("glycemia", String.valueOf(e.getGlycemia()));
-        intent.putExtra("hemoglobine", String.valueOf(e.getHemoglobine()));
-        intent.putExtra("time", e.getTime());
+        intent.putExtra("glycemia", e.getGlycemia());
+        intent.putExtra("hemoglobine", e.getHemoglobine());
+        intent.putExtra("time", e.getFormattedTime());
         intent.putExtra("photoPath", e.getImagePath());
 
         activity.startActivity(intent);
@@ -116,16 +128,26 @@ public class HistoryActivity extends AppCompatActivity {
         entries = db.getAllRows();
         entriesMarker();
 
-        List<String> list = new ArrayList<>();
-        Log.d(getLocalClassName(), "n_rows : "+entries.size());
-        for(Entry e : entries) {
-            list.add(e.toString());
-        }
-
         ListView listView = findViewById(R.id.listHistory);
-        listView.setAdapter(
-                new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, list)
-        );
+        
+        ArrayAdapter<Entry> adapter = new ArrayAdapter<Entry>(this, android.R.layout.simple_list_item_2, android.R.id.text1, entries) {
+            @NonNull
+            @Override
+            public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+                View view = super.getView(position, convertView, parent);
+                TextView text1 = view.findViewById(android.R.id.text1);
+                TextView text2 = view.findViewById(android.R.id.text2);
+
+                Entry e = getItem(position);
+                if (e != null) {
+                    text1.setText(e.getFormattedTime());
+                    text2.setText("Glycemie : " + e.getGlycemia() + " G/L | HbA1c : " + e.getHemoglobine() + "%");
+                }
+                return view;
+            }
+        };
+
+        listView.setAdapter(adapter);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

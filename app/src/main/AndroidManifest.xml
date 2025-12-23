@@ -38,8 +38,8 @@
         <activity android:name=".AddEntryActivity" android:exported="false" />
         <activity android:name=".EntryFullActivity" android:exported="false" />
 
-
         <service android:name=".services.MonitoringService" android:exported="false" />
+        <service android:name=".services.GPSservice" android:exported="false" />
 
         <receiver android:name=".receivers.SmsReceiver"
             android:exported="true"
