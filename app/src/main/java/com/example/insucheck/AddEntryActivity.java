@@ -98,9 +98,12 @@ public class AddEntryActivity extends AppCompatActivity {
 
     public void capturePhoto(View view) {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+
+        // Vérifie qu'une application caméra est disponible
         if (intent.resolveActivity(getPackageManager()) != null) {
             File photoFile = null;
             try {
+                // Crée le fichier temporaire dans Pictures
                 photoFile = createImageFile();
             } catch (IOException ex) {
                 Toast.makeText(this, "Erreur création fichier", Toast.LENGTH_SHORT).show();
@@ -108,13 +111,20 @@ public class AddEntryActivity extends AppCompatActivity {
             }
 
             if (photoFile != null) {
+                // L'autorité doit correspondre au provider du Manifest
+                String authority = getPackageName() + ".provider";
+
                 android.net.Uri photoURI = FileProvider.getUriForFile(this,
-                        getApplicationContext().getPackageName() + ".provider",
+                        authority,
                         photoFile);
 
-                //Donner la permission d'écriture à l'intent
+                // Autorise la caméra à écrire dans ton fichier
                 intent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+
+                // Indique à la caméra où enregistrer la photo
                 intent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+
+                // Lance la capture
                 startActivityForResult(intent, TAKE_PICTURE);
             }
         }
@@ -123,13 +133,22 @@ public class AddEntryActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        // On vérifie le code retour et que le fichier existe bien sur le disque
+
+        // On vérifie que c'est bien le retour de la caméra et que c'est un succès
         if (requestCode == TAKE_PICTURE && resultCode == RESULT_OK) {
+            // Utilisation du chemin absolu généré par createImageFile()
             File imgFile = new File(currentPhotoPath);
-            if(imgFile.exists()){
+            if (imgFile.exists()) {
+                // Décodage du fichier en Bitmap
                 Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
-                imageViewPreview.setImageBitmap(myBitmap);
-                imageViewPreview.setVisibility(View.VISIBLE);
+
+                // Mise à jour de l'UI
+                if (imageViewPreview != null && myBitmap != null) {
+                    imageViewPreview.setImageBitmap(myBitmap);
+                    imageViewPreview.setVisibility(View.VISIBLE);
+                }
+            } else {
+                Toast.makeText(this, "Fichier photo introuvable", Toast.LENGTH_SHORT).show();
             }
         }
     }
