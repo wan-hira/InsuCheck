@@ -1,5 +1,7 @@
 package com.example.insucheck;
 
+import static androidx.core.location.LocationManagerCompat.getCurrentLocation;
+
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
@@ -29,10 +31,16 @@ public class AddEntryActivity extends AppCompatActivity {
     String currentPhotoPath = "";
     private ImageView imageViewPreview;
 
+    private android.location.LocationManager locationManager;
+    private double currentLat = 0.0;
+    private double currentLon = 0.0;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_entry);
+        locationManager = (android.location.LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        getCurrentLocation();
         init();
     }
 
@@ -48,8 +56,22 @@ public class AddEntryActivity extends AppCompatActivity {
         double hemoglobineValue = Double.parseDouble(hemoglobine.getText().toString());
         String time = String.valueOf(System.currentTimeMillis());
         // Todo GET LOCATION
-        Entry newEntry = new Entry(glycemiaValue, hemoglobineValue, time, 0, 0);
+        //Entry newEntry = new Entry(glycemiaValue, hemoglobineValue, time, 0, 0);
+        Entry newEntry = new Entry(glycemiaValue, hemoglobineValue, time, currentLat, currentLon);
+        newEntry.setImagePath(currentPhotoPath);
         db.addRow(newEntry);
+        finish(); // Retour au dashboard
+    }
+
+    private void getCurrentLocation() {
+        // Vérification des permissions
+        if (androidx.core.app.ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) == android.content.pm.PackageManager.PERMISSION_GRANTED) {
+            android.location.Location location = locationManager.getLastKnownLocation(android.location.LocationManager.GPS_PROVIDER);
+            if (location != null) {
+                currentLat = location.getLatitude();
+                currentLon = location.getLongitude();
+            }
+        }
     }
 
     private void dispatchTakePictureIntent() {
