@@ -104,11 +104,16 @@ public class AddEntryActivity extends AppCompatActivity {
                 photoFile = createImageFile();
             } catch (IOException ex) {
                 Toast.makeText(this, "Erreur création fichier", Toast.LENGTH_SHORT).show();
+                return;
             }
+
             if (photoFile != null) {
                 android.net.Uri photoURI = FileProvider.getUriForFile(this,
                         getApplicationContext().getPackageName() + ".provider",
                         photoFile);
+
+                //Donner la permission d'écriture à l'intent
+                intent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
                 intent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
                 startActivityForResult(intent, TAKE_PICTURE);
             }
@@ -118,11 +123,12 @@ public class AddEntryActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        // On vérifie le code retour et que le fichier existe bien sur le disque
         if (requestCode == TAKE_PICTURE && resultCode == RESULT_OK) {
-            // currentPhotoPath contient déjà le chemin vers le fichier
-            Bitmap bitmap = BitmapFactory.decodeFile(currentPhotoPath);
-            if (imageViewPreview != null && bitmap != null) {
-                imageViewPreview.setImageBitmap(bitmap);
+            File imgFile = new File(currentPhotoPath);
+            if(imgFile.exists()){
+                Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
+                imageViewPreview.setImageBitmap(myBitmap);
                 imageViewPreview.setVisibility(View.VISIBLE);
             }
         }
