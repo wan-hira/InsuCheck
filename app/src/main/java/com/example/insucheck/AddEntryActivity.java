@@ -49,6 +49,7 @@ public class AddEntryActivity extends AppCompatActivity {
         glycemia = findViewById(R.id.glycemia);
         hemoglobine = findViewById(R.id.hemoglobine);
         imageViewPreview = findViewById(R.id.imgPreview);
+        locationManager = (android.location.LocationManager) getSystemService(Context.LOCATION_SERVICE);
     }
 
     public void createEntry(View view) {
