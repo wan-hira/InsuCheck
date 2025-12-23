@@ -22,6 +22,11 @@ public class Entry implements Serializable {
         setTime(time);
         setLat(lat);
         setLon(lon);
+        setImagePath(null);
+    }
+
+    public Entry(double glycemia, double hemoglobine, String time, double lat, double lon, String imagePath) {
+        this(glycemia, hemoglobine, time, lat, lon);
         setImagePath(imagePath);
     }
 
