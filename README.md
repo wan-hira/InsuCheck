@@ -4,8 +4,8 @@
 **CY Cergy Paris Université**
 
 ## 1. Team Members
-* **AWAN Waneeza Hira**
-* **BELKACIMI Yassine**
+* **AWAN Waneeza Hira** (waneeza-hira.awan@etu.cyu.fr)
+* **BELKACIMI Yassine** (e-ybelkaci@etu.cyu.fr)
 
 ## 2. Project Description
 **InsuCheck** is an interactive health assistant designed for diabetic patients. It streamlines the management of insulin and glucose levels by combining manual data entry with real-time mobile features.
