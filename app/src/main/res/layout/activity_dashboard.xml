@@ -103,30 +103,16 @@
                 style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:layout_width="0dp"
                 android:layout_height="100dp"
-                android:layout_weight="1"
                 android:layout_margin="4dp"
+                android:layout_weight="1"
                 android:backgroundTint="#FFFFFF"
                 android:onClick="history"
                 android:text="HISTORY"
                 android:textColor="#2196F3"
+                app:cornerRadius="15dp"
                 app:icon="@android:drawable/ic_menu_recent_history"
-                app:iconGravity="top"
-                app:cornerRadius="15dp"/>
+                app:iconGravity="top" />
 
-            <Button
-                android:id="@+id/settingsBtn"
-                style="@style/Widget.MaterialComponents.Button.TextButton"
-                android:layout_width="0dp"
-                android:layout_height="100dp"
-                android:layout_weight="1"
-                android:layout_margin="4dp"
-                android:backgroundTint="#FFFFFF"
-                android:onClick="settings"
-                android:text="SETTINGS"
-                android:textColor="#2196F3"
-                app:icon="@android:drawable/ic_menu_preferences"
-                app:iconGravity="top"
-                app:cornerRadius="15dp"/>
         </LinearLayout>
 
     </LinearLayout>
