@@ -30,20 +30,6 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="12dp"
-            android:layout_weight="1.8"
-            app:cardCornerRadius="15dp"
-            app:cardElevation="6dp">
-
-            <org.osmdroid.views.MapView
-                android:id="@+id/map"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-        </androidx.cardview.widget.CardView>
-
         <ImageView
             android:id="@+id/imageView3"
             android:layout_width="match_parent"

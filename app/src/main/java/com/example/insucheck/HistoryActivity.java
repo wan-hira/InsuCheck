@@ -3,12 +3,15 @@ package com.example.insucheck;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -53,7 +56,8 @@ public class HistoryActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_history);
 
-        initMap();
+        map = (MapView) findViewById(R.id.map);
+        initMap(map, this, last_postion_latitude, last_postion_longitude, DEFAULT_ZOOM_LEVEL);
         init();
     }
 
@@ -62,25 +66,24 @@ public class HistoryActivity extends AppCompatActivity {
         entryHistory();
     }
 
-    private void initMap() {
-        map = (MapView) findViewById(R.id.map);
+    public static void initMap(MapView map, Activity activity, double latitude, double longitude, int zoom_level) {
         map.setTileSource(TileSourceFactory.MAPNIK);
 
-        MainActivity.PermissionsManager(this);
+        MainActivity.PermissionsManager(activity);
         String[] permissions = {Manifest.permission.WRITE_EXTERNAL_STORAGE,
                 Manifest.permission.ACCESS_FINE_LOCATION,
                 Manifest.permission.ACCESS_COARSE_LOCATION,
                 Manifest.permission.INTERNET,
                 Manifest.permission.ACCESS_NETWORK_STATE};
-        requestPermissionsIfNecessary(this, permissions);
+        requestPermissionsIfNecessary(activity, permissions);
 
         map.setBuiltInZoomControls(true);
         map.setMultiTouchControls(true);
 
         IMapController mapController = map.getController();
-        mapController.setZoom(DEFAULT_ZOOM_LEVEL);
+        mapController.setZoom(zoom_level);
 
-        GeoPoint startPoint = new GeoPoint(last_postion_latitude, last_postion_longitude);
+        GeoPoint startPoint = new GeoPoint(latitude, longitude);
         mapController.setCenter(startPoint);
     }
 
@@ -94,6 +97,16 @@ public class HistoryActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         map.onPause();
+    }
+
+    public static void launchFullActivity(Context ctx, Activity activity, Entry e) {
+        Intent intent = new Intent(ctx, EntryFullActivity.class);
+        intent.putExtra("glycemia", String.valueOf(e.getGlycemia()));
+        intent.putExtra("hemoglobine", String.valueOf(e.getHemoglobine()));
+        intent.putExtra("time", e.getTime());
+        intent.putExtra("photoPath", e.getImagePath());
+
+        activity.startActivity(intent);
     }
 
 
@@ -113,19 +126,31 @@ public class HistoryActivity extends AppCompatActivity {
         listView.setAdapter(
                 new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, list)
         );
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Entry e = entries.get(position);
+                launchFullActivity(HistoryActivity.this, HistoryActivity.this, e);
+            }
+        });
+    }
+
+    public static void addMarker(Activity activity, MapView map, Entry e) {
+        Log.d(activity.getLocalClassName(), "Adding marker : "+e.toString());
+        RadiusMarkerClusterer markerClusterer = new RadiusMarkerClusterer(activity);
+
+        Bitmap clusterIcon = BonusPackHelper.getBitmapFromVectorDrawable(activity, org.osmdroid.bonuspack.R.drawable.marker_cluster);
+        markerClusterer.setIcon(clusterIcon);
+
+        map.getOverlays().add(markerClusterer);
+        new EntryMaker(activity, map, e, markerClusterer, activity, activity.getApplicationContext());
+        map.invalidate();
     }
 
     private void entriesMarker() {
         for(Entry e : entries) {
-            Log.d(getLocalClassName(), "Adding marker : "+e.toString());
-            RadiusMarkerClusterer markerClusterer = new RadiusMarkerClusterer(this);
-
-            Bitmap clusterIcon = BonusPackHelper.getBitmapFromVectorDrawable(this, org.osmdroid.bonuspack.R.drawable.marker_cluster);
-            markerClusterer.setIcon(clusterIcon);
-
-            map.getOverlays().add(markerClusterer);
-            new EntryMaker(this, map, e, markerClusterer);
-            map.invalidate();
+            addMarker(this, map, e);
         }
     }
 

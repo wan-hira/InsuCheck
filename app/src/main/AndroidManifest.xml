@@ -36,6 +36,8 @@
         <activity android:name=".DashboardActivity" android:exported="false" />
         <activity android:name=".HistoryActivity" android:exported="false" />
         <activity android:name=".AddEntryActivity" android:exported="false" />
+        <activity android:name=".EntryFullActivity" android:exported="false" />
+
 
         <service android:name=".services.MonitoringService" android:exported="false" />
 
