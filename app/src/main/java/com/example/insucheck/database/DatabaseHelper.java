@@ -80,6 +80,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 e.setTime(cursor.getString(3));
                 e.setLat(cursor.getDouble(4));
                 e.setLon(cursor.getDouble(5));
+                e.setImagePath(cursor.getString(6));
 
                 l.add(e);
             } while (cursor.moveToNext());
@@ -106,6 +107,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 e.setTime(cursor.getString(3));
                 e.setLat(cursor.getDouble(4));
                 e.setLon(cursor.getDouble(5));
+                e.setImagePath(cursor.getString(6));
 
                 l.add(e);
                 i++;

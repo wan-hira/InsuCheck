@@ -95,6 +95,40 @@ public class AddEntryActivity extends AppCompatActivity {
         return image;
     }
 
+
+    public void capturePhoto(View view) {
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            File photoFile = null;
+            try {
+                photoFile = createImageFile();
+            } catch (IOException ex) {
+                Toast.makeText(this, "Erreur création fichier", Toast.LENGTH_SHORT).show();
+            }
+            if (photoFile != null) {
+                android.net.Uri photoURI = FileProvider.getUriForFile(this,
+                        getApplicationContext().getPackageName() + ".provider",
+                        photoFile);
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                startActivityForResult(intent, TAKE_PICTURE);
+            }
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == TAKE_PICTURE && resultCode == RESULT_OK) {
+            // currentPhotoPath contient déjà le chemin vers le fichier
+            Bitmap bitmap = BitmapFactory.decodeFile(currentPhotoPath);
+            if (imageViewPreview != null && bitmap != null) {
+                imageViewPreview.setImageBitmap(bitmap);
+                imageViewPreview.setVisibility(View.VISIBLE);
+            }
+        }
+    }
+
+    /*
     public void capturePhoto(View view) {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
@@ -132,7 +166,7 @@ public class AddEntryActivity extends AppCompatActivity {
         }
     }
 
-    /*
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
